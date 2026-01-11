@@ -6,7 +6,7 @@ export function Input({
   value, 
   onChange, 
   disabled = false,
-  className = '',
+  className = '', 
   ...props 
 }) {
   return (
@@ -30,4 +30,4 @@ export function Input({
     />
   );
 }
-
+// 触发更新
