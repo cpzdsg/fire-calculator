@@ -5,7 +5,7 @@ import { Slider } from './components/Slider';
 import { ResultDisplay } from './components/ResultDisplay';
 import { useFireCalculator } from './hooks/useFireCalculator';
 import { formatCurrency } from './lib/utils';
-import { Scale } from 'lucide-react';
+// import { Scale } from 'lucide-react'; // 图标已替换为苦工图片
 
 function App() {
   const [assets, setAssets] = useState('');
@@ -54,10 +54,17 @@ function App() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
-          <div className="flex items-center justify-center gap-3 mb-2">
-            <Scale className="w-8 h-8 text-neon-green" />
+          {/* --- 苦工头像区域 --- */}
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <img 
+              src="/peon.jpg" 
+              className="w-12 h-12 rounded-full border-2 border-gray-600 shadow-lg object-cover"
+              alt="Work work"
+            />
             <h1 className="text-4xl font-bold">刑期计算器</h1>
           </div>
+          {/* --- 区域结束 --- */}
+
           <p className="text-gray-400 text-sm mb-4">Financial Debt/Work = Prison Sentence</p>
           <div className="text-xs text-gray-400 max-w-2xl mx-auto px-4">
             <p>📜 赎身法则：根据 FIRE 理论，当你攒够【年度开销的 25 倍】本金，靠理财收益就足以覆盖生活。</p>
@@ -170,4 +177,3 @@ function App() {
 }
 
 export default App;
-
