@@ -1,50 +1,65 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Shield, Lock, Crown, Zap } from 'lucide-react';
 
-export const WardenVerdict = ({ result }) => {
-  let title, text, borderColor, bgColor, icon;
+/**
+ * 严格遵照最终确定的 4 大标题与中英灵魂文案：
+ * 1. 生而自由 -> 躺到老，爽到老
+ * 2. 最后冲刺 -> 出发不是为了到达，而是为了不再回来
+ * 3. 漫长刑期 -> 夜里想了千条路，早起还得磨豆腐 (McJob 梗)
+ * 4. 终身监禁 -> 复利？我看是老板的法拉利 (Family 梗)
+ */
+export const WardenVerdict = ({ years, lang = 'zh' }) => {
+  const isEn = lang === 'en';
 
-  // 严格按照年数判定，解决文案错位
-  if (result.years <= 3) {
-    title = '🔓 即将假释 (Freedom)';
-    text = '典狱长已经在写你的推荐信了。自由的味道就在门口，收拾好行李，别回头。';
-    icon = <Zap className="w-6 h-6 text-emerald-400" />;
-    borderColor = 'border-emerald-500/50';
-    bgColor = 'bg-emerald-500/10';
-  } else if (result.years <= 10) {
-    title = '🛡️ 表现良好 (Model Prisoner)';
-    text = '你是个模范犯人。复利确实在帮你挖地道，虽然进度不算快，但至少你能看到光了。';
-    icon = <Shield className="w-6 h-6 text-blue-400" />;
-    borderColor = 'border-blue-500/50';
-    bgColor = 'bg-blue-500/10';
-  } else if (result.years <= 25) {
-    title = '🧱 刑期漫长 (Long Sentence)';
-    text = '别看复利了。那点收益还没你的饭钱多。建议在牢里学点手艺，监狱里的饭管饱，日子还长。';
-    icon = <Lock className="w-6 h-6 text-orange-400" />;
-    borderColor = 'border-orange-500/50';
-    bgColor = 'bg-orange-500/10';
-  } else {
-    title = '🔒 终身监禁 (Life Sentence)';
-    text = '复利？那是老板买法拉利的复利。监狱就是你的家。建议把床位打扫干净点，这辈子你就住这了。';
-    icon = <Crown className="w-6 h-6 text-red-500" />;
-    borderColor = 'border-red-500/50';
-    bgColor = 'bg-red-500/10';
-  }
+  const getVerdict = () => {
+    // 1. 生而自由 (0年)
+    if (years === 0) {
+      return {
+        status: isEn ? '【BORN FREE】' : '【生而自由】',
+        text: isEn ? "Stay free, for the rest of your life." : "躺到老，爽到老。",
+        color: 'text-emerald-400'
+      };
+    }
+
+    // 2. 最后冲刺 (1-5年)
+    if (years <= 5) {
+      return {
+        status: isEn ? '【FINAL STRETCH】' : '【最后冲刺】',
+        text: isEn 
+          ? "Leaving is not for arriving, but for never coming back." 
+          : "出发不是为了到达，而是为了不再回来。",
+        color: 'text-yellow-500'
+      };
+    }
+
+    // 3. 漫长刑期 (5-15年)
+    if (years <= 15) {
+      return {
+        status: isEn ? '【LONG GRIND】' : '【漫长刑期】',
+        text: isEn 
+          ? "Dreaming of the path at night, flipping burgers at dawn." 
+          : "夜里想了千条路，早起还得磨豆腐。",
+        color: 'text-orange-500'
+      };
+    }
+
+    // 4. 终身监禁 (15年以上)
+    return {
+      status: isEn ? '【LIFE SENTENCE】' : '【终身监禁】',
+      text: isEn 
+        ? "Compound interest? It's for your boss's Ferrari. Work hard, the company is your home forever." 
+        : "复利？我看是老板的法拉利。好好干活吧，公司就是你永远的家。",
+      color: 'text-red-600'
+    };
+  };
+
+  const verdict = getVerdict();
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className={`mt-6 p-6 border-2 rounded-2xl shadow-lg transition-all ${borderColor} ${bgColor}`}
-    >
-      <div className="flex items-center gap-3 mb-3">
-        {icon}
-        <h3 className="text-xl font-black italic tracking-tight">{title}</h3>
-      </div>
-      <p className="text-gray-300 leading-relaxed font-medium">
-        {text}
+    <div className="mt-4 p-5 rounded-xl bg-slate-900/90 border border-slate-800 shadow-2xl transition-all duration-300">
+      <p className={`text-sm md:text-base font-bold tracking-wide ${verdict.color}`}>
+        <span className="opacity-80 mr-3">{verdict.status}</span> 
+        <span className="italic">“{verdict.text}”</span>
       </p>
-    </motion.div>
+    </div>
   );
 };
